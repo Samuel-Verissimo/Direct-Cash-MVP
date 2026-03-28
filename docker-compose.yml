@@ -1,0 +1,54 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-directcash}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-directcash}
+      POSTGRES_DB: ${POSTGRES_DB:-directcash}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - '${POSTGRES_PORT:-5433}:5432'
+    healthcheck:
+      test:
+        ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-directcash} -d ${POSTGRES_DB:-directcash}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile
+      target: production
+    container_name: nestjs_api
+    env_file: ./apps/api/.env
+    environment:
+      # Sobrescreve vars do env_file que diferem no ambiente Docker
+      DATABASE_URL: postgresql://${POSTGRES_USER:-directcash}:${POSTGRES_PASSWORD:-directcash}@postgres:5432/${POSTGRES_DB:-directcash}
+      NODE_ENV: production
+      API_PORT: 3001
+    ports:
+      - '${API_PORT:-3101}:3001'
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:3101/api}
+    container_name: nextjs_web
+    ports:
+      - '${WEB_PORT:-3100}:3000'
+    depends_on:
+      - api
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
