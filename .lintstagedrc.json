@@ -1,10 +1,10 @@
 {
   "apps/api/src/**/*.ts": [
-    "node apps/api/node_modules/eslint/bin/eslint.js --fix",
+    "node apps/api/node_modules/eslint/bin/eslint.js --fix --config apps/api/eslint.config.mjs",
     "node apps/api/node_modules/prettier/bin/prettier.cjs --write"
   ],
   "apps/web/src/**/*.{ts,tsx}": [
-    "node apps/web/node_modules/eslint/bin/eslint.js --fix",
+    "node apps/web/node_modules/eslint/bin/eslint.js --fix --config apps/web/eslint.config.mjs",
     "node apps/api/node_modules/prettier/bin/prettier.cjs --write"
   ],
   "*.{json,md,yml,yaml}": ["node apps/api/node_modules/prettier/bin/prettier.cjs --write"]
