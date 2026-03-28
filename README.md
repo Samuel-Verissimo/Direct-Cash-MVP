@@ -66,6 +66,15 @@ Acessos:
 
 ---
 
+## Preview da Tela de Login
+
+<p align="center">
+  <img src="./login.png" alt="Tela de login do DirectCash MVP" width="920" />
+</p>
+<p align="center">
+  <em>Fluxo de autenticação inicial da aplicação.</em>
+</p>
+
 ### Modo 2 — Docker Compose (build completo)
 
 Use este modo para validar o build final ou testar em ambiente proximo ao de producao. **Nao ha hot reload** — alteracoes exigem rebuild da imagem.
