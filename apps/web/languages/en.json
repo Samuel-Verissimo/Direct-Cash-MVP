@@ -1,0 +1,219 @@
+{
+  "App": {
+    "loading": "Loading…"
+  },
+  "Auth": {
+    "tabs": {
+      "login": "Sign in",
+      "register": "Sign up"
+    },
+    "hero": {
+      "eyebrow": "Campaign management",
+      "headline": "Create, manage, and optimize campaigns with artificial intelligence.",
+      "subtitle": "Full-featured dashboard with built-in AI to generate high-impact campaigns and ads in seconds — no marketing team needed.",
+      "footerNote": "Technical challenge · Stack: NestJS + Next.js + PostgreSQL + OpenAI"
+    },
+    "features": {
+      "manage": "Create and manage campaigns in seconds",
+      "ai": "Built-in AI to generate campaigns and ads",
+      "track": "Track budget and performance in real time"
+    },
+    "login": {
+      "title": "Sign in to your account",
+      "subtitle": "Enter your email and password to access the dashboard.",
+      "submit": "Sign in",
+      "submitting": "Signing in…",
+      "noAccount": "Don't have an account?",
+      "signUpLink": "Sign up"
+    },
+    "register": {
+      "title": "Create your account",
+      "subtitle": "Fill in the details below to get started.",
+      "submit": "Create account",
+      "submitting": "Creating account…",
+      "hasAccount": "Already have an account?",
+      "loginLink": "Sign in"
+    },
+    "fields": {
+      "fullName": "Full name",
+      "email": "Email",
+      "password": "Password",
+      "namePlaceholder": "John Smith",
+      "emailPlaceholder": "you@company.com",
+      "passwordPlaceholderLogin": "••••••••",
+      "passwordPlaceholderRegister": "At least 8 characters"
+    },
+    "validation": {
+      "nameMin": "Name must be at least 2 characters.",
+      "emailInvalid": "Enter a valid email address.",
+      "passwordMin": "Password must be at least 8 characters."
+    },
+    "errors": {
+      "authFailed": "Could not authenticate. Please try again."
+    },
+    "demo": {
+      "label": "Demo account"
+    }
+  },
+  "Dashboard": {
+    "logout": "Sign out",
+    "stats": {
+      "campaigns": "Campaigns",
+      "draft": "In draft",
+      "budgetTotal": "Total budget",
+      "totalSpent": "Total spent",
+      "activeHint": "{count} active",
+      "awaitingHint": "Awaiting activation",
+      "allCampaignsHint": "Sum of all campaigns",
+      "noActiveCampaigns": "No active campaigns",
+      "budgetPercent": "{percent}% of budget"
+    },
+    "nav": {
+      "newCampaign": "New campaign",
+      "campaign": "Campaign",
+      "ads": "✦ Ads"
+    },
+    "errors": {
+      "loadFailed": "Could not load campaigns.",
+      "saveFailed": "Could not save campaign.",
+      "deleteFailed": "Could not delete campaign."
+    },
+    "notices": {
+      "updated": "Campaign \"{name}\" updated.",
+      "created": "Campaign \"{name}\" created.",
+      "removed": "Campaign removed."
+    },
+    "session": {
+      "expired": "Your session has expired. Please sign in again.",
+      "ended": "Signed out successfully."
+    }
+  },
+  "CampaignForm": {
+    "titleCreate": "New campaign",
+    "titleEdit": "Edit campaign",
+    "subtitleEdit": "Editing \"{name}\"",
+    "subtitleCreate": "Describe your goal and let AI generate the data — or fill it in manually.",
+    "ai": {
+      "title": "Generate with AI",
+      "description": "Describe in plain language what you want to advertise. AI will suggest a name, description, budget, and duration.",
+      "placeholder": "E.g.: I want to advertise my aesthetics clinic in São Paulo to attract new clients this summer, focusing on facial procedures…",
+      "reasoning": "AI reasoning:",
+      "generate": "Generate campaign",
+      "generating": "Generating…",
+      "errorEmpty": "Write a brief description before generating.",
+      "errorFailed": "Could not generate. Please try again."
+    },
+    "divider": "or fill in manually",
+    "fields": {
+      "name": "Name",
+      "description": "Description",
+      "descriptionHint": "Optional",
+      "budget": "Budget (R$)",
+      "budgetHint": "Value in Brazilian reals.",
+      "status": "Status",
+      "startDate": "Start",
+      "endDate": "End",
+      "namePlaceholder": "Launch campaign",
+      "descriptionPlaceholder": "Summary of objective and strategy"
+    },
+    "currentBudget": "Current budget:",
+    "validation": {
+      "nameMin": "Name must be at least 3 characters.",
+      "budgetRequired": "Enter a budget greater than zero.",
+      "startDateRequired": "Select a start date.",
+      "endDateRequired": "Select an end date.",
+      "endDateAfterStart": "End date must be after the start date."
+    },
+    "submit": {
+      "saving": "Saving…",
+      "save": "Save changes",
+      "create": "Create campaign",
+      "cancel": "Cancel"
+    }
+  },
+  "CampaignList": {
+    "heading": "Campaigns",
+    "empty": "No campaigns created yet",
+    "count": "{count, plural, one {# campaign total} other {# campaigns total}}",
+    "tabs": {
+      "all": "All",
+      "active": "Active",
+      "drafts": "Drafts",
+      "paused": "Paused",
+      "completed": "Completed"
+    },
+    "emptyState": {
+      "allTitle": "No campaigns yet",
+      "filteredTitle": "No {status} campaigns",
+      "allDescription": "Create your first campaign using the form on the right, or let AI generate one for you.",
+      "filteredDescription": "Try another filter or create a new campaign."
+    },
+    "stats": {
+      "budget": "Budget:",
+      "spent": "Spent:",
+      "period": "Period:"
+    },
+    "budgetUsed": "{percent}% of budget used",
+    "ads": {
+      "count": "{count, plural, one {# ad} other {# ads}}",
+      "none": "No ads"
+    },
+    "actions": {
+      "deleting": "Removing…",
+      "delete": "Delete"
+    },
+    "swagger": {
+      "title": "API Docs — Swagger",
+      "subtitle": "localhost:3101/api/docs"
+    }
+  },
+  "AdsGrid": {
+    "heading": "Ads",
+    "subtitle": "{name} · {count, plural, one {# ad saved} other {# ads saved}}",
+    "status": {
+      "active": "● Active",
+      "paused": "○ Paused"
+    },
+    "metrics": "{impressions} impressions · {clicks} clicks",
+    "actions": {
+      "pause": "Pause",
+      "activate": "Activate",
+      "delete": "Delete"
+    },
+    "empty": {
+      "title": "No ads saved yet",
+      "description": "Generate ads with AI using the panel on the right"
+    },
+    "errors": {
+      "load": "Could not load ads.",
+      "toggle": "Could not update status.",
+      "delete": "Could not delete ad."
+    }
+  },
+  "CampaignAds": {
+    "ai": {
+      "title": "✦ Generate with AI",
+      "generate": "✦ Generate {count, plural, one {# ad} other {# ads}}",
+      "generating": "Generating…",
+      "errorFailed": "Could not generate ads.",
+      "errorSave": "Could not save ad."
+    },
+    "format": {
+      "auto": "Automatic"
+    },
+    "drafts": {
+      "saveAll": "Save all",
+      "save": "Save",
+      "saving": "Saving…",
+      "divider": "{count, plural, one {# generated — save to add} other {# generated — save to add}}",
+      "urlLabel": "Target URL",
+      "urlPlaceholder": "https://yoursite.com/page"
+    }
+  },
+  "Status": {
+    "DRAFT": "Draft",
+    "ACTIVE": "Active",
+    "PAUSED": "Paused",
+    "COMPLETED": "Completed"
+  }
+}

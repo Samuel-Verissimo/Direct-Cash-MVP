@@ -1,0 +1,219 @@
+{
+  "App": {
+    "loading": "Carregando…"
+  },
+  "Auth": {
+    "tabs": {
+      "login": "Entrar",
+      "register": "Cadastrar"
+    },
+    "hero": {
+      "eyebrow": "Gestão de campanhas",
+      "headline": "Crie, gerencie e otimize campanhas com inteligência artificial.",
+      "subtitle": "Painel completo com IA integrada para gerar campanhas e anúncios de alto impacto em segundos, sem precisar de uma equipe de marketing.",
+      "footerNote": "Desafio técnico · Stack: NestJS + Next.js + PostgreSQL + OpenAI"
+    },
+    "features": {
+      "manage": "Crie e gerencie campanhas em segundos",
+      "ai": "IA integrada para gerar campanhas e anúncios",
+      "track": "Acompanhe orçamento e desempenho em tempo real"
+    },
+    "login": {
+      "title": "Acesse sua conta",
+      "subtitle": "Entre com email e senha para acessar o painel.",
+      "submit": "Entrar",
+      "submitting": "Entrando…",
+      "noAccount": "Não tem conta?",
+      "signUpLink": "Cadastre-se"
+    },
+    "register": {
+      "title": "Crie sua conta",
+      "subtitle": "Preencha os dados abaixo para começar a usar.",
+      "submit": "Criar conta",
+      "submitting": "Criando conta…",
+      "hasAccount": "Já tem uma conta?",
+      "loginLink": "Entrar"
+    },
+    "fields": {
+      "fullName": "Nome completo",
+      "email": "Email",
+      "password": "Senha",
+      "namePlaceholder": "João Silva",
+      "emailPlaceholder": "voce@empresa.com",
+      "passwordPlaceholderLogin": "••••••••",
+      "passwordPlaceholderRegister": "Mínimo 8 caracteres"
+    },
+    "validation": {
+      "nameMin": "Nome deve ter ao menos 2 caracteres.",
+      "emailInvalid": "Informe um email válido.",
+      "passwordMin": "Senha deve ter ao menos 8 caracteres."
+    },
+    "errors": {
+      "authFailed": "Não foi possível autenticar agora."
+    },
+    "demo": {
+      "label": "Conta de demonstração"
+    }
+  },
+  "Dashboard": {
+    "logout": "Sair",
+    "stats": {
+      "campaigns": "Campanhas",
+      "draft": "Em rascunho",
+      "budgetTotal": "Orçamento total",
+      "totalSpent": "Total gasto",
+      "activeHint": "{count} ativas",
+      "awaitingHint": "Aguardando ativação",
+      "allCampaignsHint": "Soma de todas as campanhas",
+      "noActiveCampaigns": "Sem campanhas ativas",
+      "budgetPercent": "{percent}% do orçamento"
+    },
+    "nav": {
+      "newCampaign": "Nova campanha",
+      "campaign": "Campanha",
+      "ads": "✦ Anúncios"
+    },
+    "errors": {
+      "loadFailed": "Não foi possível carregar as campanhas.",
+      "saveFailed": "Não foi possível salvar a campanha.",
+      "deleteFailed": "Não foi possível excluir a campanha."
+    },
+    "notices": {
+      "updated": "Campanha \"{name}\" atualizada.",
+      "created": "Campanha \"{name}\" criada.",
+      "removed": "Campanha removida."
+    },
+    "session": {
+      "expired": "Sua sessão expirou. Entre novamente.",
+      "ended": "Sessão encerrada com sucesso."
+    }
+  },
+  "CampaignForm": {
+    "titleCreate": "Nova campanha",
+    "titleEdit": "Editar campanha",
+    "subtitleEdit": "Editando \"{name}\"",
+    "subtitleCreate": "Descreva o objetivo e deixe a IA gerar os dados — ou preencha manualmente.",
+    "ai": {
+      "title": "Gerar com IA",
+      "description": "Descreva em linguagem natural o que você quer anunciar. A IA sugere nome, descrição, orçamento e duração.",
+      "placeholder": "Ex: Quero anunciar minha clínica de estética em SP para atrair novos clientes no verão com foco em procedimentos faciais…",
+      "reasoning": "Raciocínio da IA:",
+      "generate": "Gerar campanha",
+      "generating": "Gerando…",
+      "errorEmpty": "Escreva uma breve descrição antes de gerar.",
+      "errorFailed": "Não foi possível gerar. Tente novamente."
+    },
+    "divider": "ou preencha manualmente",
+    "fields": {
+      "name": "Nome",
+      "description": "Descrição",
+      "descriptionHint": "Opcional",
+      "budget": "Orçamento (R$)",
+      "budgetHint": "Valor em reais.",
+      "status": "Status",
+      "startDate": "Início",
+      "endDate": "Fim",
+      "namePlaceholder": "Campanha de lançamento",
+      "descriptionPlaceholder": "Resumo do objetivo e estratégia"
+    },
+    "currentBudget": "Orçamento atual:",
+    "validation": {
+      "nameMin": "Nome deve ter ao menos 3 caracteres.",
+      "budgetRequired": "Informe um orçamento maior que zero.",
+      "startDateRequired": "Selecione a data de início.",
+      "endDateRequired": "Selecione a data de fim.",
+      "endDateAfterStart": "A data de fim deve ser posterior ao início."
+    },
+    "submit": {
+      "saving": "Salvando…",
+      "save": "Salvar alterações",
+      "create": "Criar campanha",
+      "cancel": "Cancelar"
+    }
+  },
+  "CampaignList": {
+    "heading": "Campanhas",
+    "empty": "Nenhuma campanha criada ainda",
+    "count": "{count, plural, one {# campanha no total} other {# campanhas no total}}",
+    "tabs": {
+      "all": "Todas",
+      "active": "Ativas",
+      "drafts": "Rascunhos",
+      "paused": "Pausadas",
+      "completed": "Concluídas"
+    },
+    "emptyState": {
+      "allTitle": "Nenhuma campanha ainda",
+      "filteredTitle": "Nenhuma campanha {status}",
+      "allDescription": "Crie sua primeira campanha usando o formulário ao lado, ou deixe a IA gerar uma para você.",
+      "filteredDescription": "Tente outro filtro ou crie uma nova campanha."
+    },
+    "stats": {
+      "budget": "Orçamento:",
+      "spent": "Gasto:",
+      "period": "Período:"
+    },
+    "budgetUsed": "{percent}% do orçamento utilizado",
+    "ads": {
+      "count": "{count, plural, one {# anúncio} other {# anúncios}}",
+      "none": "Sem anúncios"
+    },
+    "actions": {
+      "deleting": "Removendo…",
+      "delete": "Excluir"
+    },
+    "swagger": {
+      "title": "API Docs — Swagger",
+      "subtitle": "localhost:3101/api/docs"
+    }
+  },
+  "AdsGrid": {
+    "heading": "Anúncios",
+    "subtitle": "{name} · {count, plural, one {# anúncio salvo} other {# anúncios salvos}}",
+    "status": {
+      "active": "● Ativo",
+      "paused": "○ Pausado"
+    },
+    "metrics": "{impressions} impressões · {clicks} cliques",
+    "actions": {
+      "pause": "Pausar",
+      "activate": "Ativar",
+      "delete": "Excluir"
+    },
+    "empty": {
+      "title": "Nenhum anúncio salvo ainda",
+      "description": "Gere anúncios com IA usando o painel à direita"
+    },
+    "errors": {
+      "load": "Não foi possível carregar os anúncios.",
+      "toggle": "Não foi possível alterar o status.",
+      "delete": "Não foi possível excluir o anúncio."
+    }
+  },
+  "CampaignAds": {
+    "ai": {
+      "title": "✦ Gerar com IA",
+      "generate": "✦ Gerar {count, plural, one {# anúncio} other {# anúncios}}",
+      "generating": "Gerando…",
+      "errorFailed": "Não foi possível gerar os anúncios.",
+      "errorSave": "Não foi possível salvar o anúncio."
+    },
+    "format": {
+      "auto": "Automático"
+    },
+    "drafts": {
+      "saveAll": "Salvar todos",
+      "save": "Salvar",
+      "saving": "Salvando…",
+      "divider": "{count, plural, one {# gerado — salvar para adicionar} other {# gerados — salvar para adicionar}}",
+      "urlLabel": "URL alvo",
+      "urlPlaceholder": "https://seusite.com/pagina"
+    }
+  },
+  "Status": {
+    "DRAFT": "Rascunho",
+    "ACTIVE": "Ativa",
+    "PAUSED": "Pausada",
+    "COMPLETED": "Concluída"
+  }
+}
