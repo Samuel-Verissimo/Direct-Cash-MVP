@@ -136,84 +136,25 @@ pnpm test
 
 Use o arquivo [`.env.example`](./.env.example) como referencia.
 
-## Dependencias Instaladas e Justificativas
+## Dependencias Principais
 
-### Root (workspace)
+As dependencias detalhadas ficam nos `package.json` de cada app. Abaixo estao apenas os blocos principais da stack:
 
-- `@commitlint/cli`: valida formato de mensagem de commit.
-- `@commitlint/config-conventional`: padrao de commits convencionais.
-- `concurrently`: executa frontend e backend simultaneamente no modo dev.
-- `husky`: hooks de Git para bloquear commits fora do padrao.
-- `lint-staged`: roda validacoes somente nos arquivos alterados.
+### Workspace (root)
 
-### API - Dependencies
+- `concurrently`: executa API e Web em paralelo no desenvolvimento.
+- `husky` + `lint-staged`: aplica validacoes em pre-commit.
+- `@commitlint/*`: valida o padrao de mensagens de commit.
 
-- `openai`: cliente oficial da OpenAI — usado para geracao de campanhas e anuncios via `gpt-4o-mini` com JSON mode.
-- `@nestjs/common`: base de decorators, providers e excecoes do Nest.
-- `@nestjs/config`: gerenciamento centralizado de configuracao/ambiente.
-- `@nestjs/core`: runtime principal do Nest.
-- `@nestjs/jwt`: emissao e validacao de JWT.
-- `@nestjs/passport`: integracao do Nest com strategies de autenticacao.
-- `@nestjs/platform-express`: adaptador HTTP Express para Nest.
-- `@nestjs/swagger`: geracao de OpenAPI/Swagger.
-- `@nestjs/throttler`: limitacao de taxa para protecao basica da API.
-- `@prisma/client`: cliente ORM tipado para acesso ao banco.
-- `bcrypt`: hash seguro de senhas e refresh tokens.
-- `class-transformer`: transformacao de payloads para classes/DTOs.
-- `class-validator`: validacao declarativa de DTOs.
-- `cookie-parser`: leitura de cookies HTTP (refresh token).
-- `passport`: middleware de autenticacao para strategies.
-- `passport-jwt`: strategy JWT para `AuthGuard`.
-- `reflect-metadata`: metadados usados por decorators do TypeScript/Nest.
-- `rxjs`: abstractions reativas internas do ecossistema Nest.
+### API (`apps/api`)
 
-### API - DevDependencies
+- Runtime: `@nestjs/*`, `@prisma/client`, `openai`, `passport-jwt`, `bcrypt`.
+- Qualidade e build: `typescript`, `eslint`, `jest`, `prettier`, `prisma`.
 
-- `@eslint/eslintrc`: compatibilidade de configuracoes ESLint.
-- `@eslint/js`: presets base do ESLint moderno.
-- `@nestjs/cli`: CLI oficial do Nest.
-- `@nestjs/schematics`: geracao de recursos boilerplate no Nest.
-- `@nestjs/testing`: utilitarios de testes para modulos Nest.
-- `@types/bcrypt`: tipagem TypeScript para bcrypt.
-- `@types/cookie-parser`: tipagem TypeScript para cookie-parser.
-- `@types/express`: tipagem TypeScript do Express.
-- `@types/jest`: tipagem TypeScript para testes Jest.
-- `@types/node`: tipagem TypeScript da API Node.js.
-- `@types/passport-jwt`: tipagem TypeScript do passport-jwt.
-- `@types/supertest`: tipagem TypeScript para testes HTTP.
-- `dotenv`: carga de variaveis de ambiente em desenvolvimento.
-- `eslint`: linter principal.
-- `eslint-config-prettier`: desativa regras ESLint que conflitam com Prettier.
-- `eslint-plugin-prettier`: executa regras de formatacao via ESLint.
-- `globals`: mapeamento de globais de ambiente para ESLint.
-- `jest`: framework de testes.
-- `prettier`: formatador de codigo.
-- `prisma`: CLI de schema, migrations e generate.
-- `source-map-support`: melhora stack traces com source maps.
-- `supertest`: testes de integracao HTTP.
-- `ts-jest`: integracao TypeScript + Jest.
-- `ts-loader`: suporte TypeScript em pipelines de build.
-- `ts-node`: execucao TypeScript sem build previo.
-- `tsconfig-paths`: resolve aliases de caminho em runtime.
-- `typescript`: compilador TypeScript.
-- `typescript-eslint`: parser e regras ESLint para TypeScript.
+### Web (`apps/web`)
 
-### WEB - Dependencies
-
-- `next`: framework React full-stack (App Router).
-- `react`: biblioteca de UI.
-- `react-dom`: renderer DOM para React.
-
-### WEB - DevDependencies
-
-- `@tailwindcss/postcss`: plugin Tailwind para pipeline PostCSS.
-- `@types/node`: tipagem TypeScript da API Node.js.
-- `@types/react`: tipagem TypeScript para React.
-- `@types/react-dom`: tipagem TypeScript para React DOM.
-- `eslint`: linter para frontend.
-- `eslint-config-next`: regras oficiais de lint para Next.js.
-- `tailwindcss`: utilitarios CSS para UI responsiva.
-- `typescript`: compilador TypeScript.
+- Runtime: `next`, `react`, `next-intl`, `next-themes`.
+- Qualidade e build: `typescript`, `eslint`, `tailwindcss`.
 
 ## Workflow de Commits
 
