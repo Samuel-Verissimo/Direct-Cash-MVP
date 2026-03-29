@@ -5,7 +5,7 @@
   ],
   "apps/web/src/**/*.{ts,tsx}": [
     "node apps/web/node_modules/eslint/bin/eslint.js --fix --config apps/web/eslint.config.mjs",
-    "node apps/api/node_modules/prettier/bin/prettier.cjs --write"
+    "node apps/web/node_modules/prettier/bin/prettier.cjs --write"
   ],
   "*.{json,md,yml,yaml}": ["node apps/api/node_modules/prettier/bin/prettier.cjs --write"]
 }
