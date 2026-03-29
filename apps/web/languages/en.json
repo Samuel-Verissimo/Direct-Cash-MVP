@@ -164,7 +164,7 @@
     },
     "swagger": {
       "title": "API Docs — Swagger",
-      "subtitle": "localhost:3101/api/docs"
+      "subtitle": "Explore the API endpoints"
     }
   },
   "AdsGrid": {
