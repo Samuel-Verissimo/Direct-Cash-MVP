@@ -2,6 +2,13 @@
 
 Aplicação full-stack para gestão de campanhas publicitárias com IA — autenticação JWT, CRUD completo e geração de campanhas via linguagem natural.
 
+<p align="center">
+  <img src="./login.png" alt="Tela de login do DirectCash MVP" width="920" />
+</p>
+<p align="center">
+  <em>Fluxo de autenticação inicial da aplicação.</em>
+</p>
+
 ## Stack
 
 | Camada   | Tecnologia                           |
@@ -193,15 +200,6 @@ Referência: [`apps/api/.env.example`](./apps/api/.env.example)
 
 - Runtime: `next`, `react`, `next-intl`, `next-themes`
 - Qualidade e build: `typescript`, `eslint`, `tailwindcss`
-
-## Preview da Tela de Login
-
-<p align="center">
-  <img src="./login.png" alt="Tela de login do DirectCash MVP" width="920" />
-</p>
-<p align="center">
-  <em>Fluxo de autenticação inicial da aplicação.</em>
-</p>
 
 ## Licença
 
