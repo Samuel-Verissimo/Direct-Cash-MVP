@@ -252,7 +252,7 @@ export function CampaignList({
 
       {/* Swagger card */}
       <a
-        href="http://localhost:3101/api/docs"
+        href={`${process.env.NEXT_PUBLIC_API_URL?.replace(/\/api$/, '')}/api/docs`}
         target="_blank"
         rel="noopener noreferrer"
         className="group flex items-center gap-3 rounded-xl border border-slate-200 bg-white p-3 transition hover:border-indigo-200 hover:shadow-sm dark:border-slate-700 dark:bg-slate-800"
