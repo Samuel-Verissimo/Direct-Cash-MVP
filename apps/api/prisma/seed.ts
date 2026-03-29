@@ -1,7 +1,12 @@
+import 'dotenv/config';
 import { PrismaClient, CampaignStatus, AdFormat, Role } from '@prisma/client';
+import { PrismaPg } from '@prisma/adapter-pg';
 import * as bcrypt from 'bcrypt';
 
-const prisma = new PrismaClient();
+const connectionString = process.env['DATABASE_URL'];
+if (!connectionString) throw new Error('DATABASE_URL is required');
+
+const prisma = new PrismaClient({ adapter: new PrismaPg({ connectionString }) });
 
 async function main() {
   console.log('🌱 Iniciando seed do banco de dados...');

@@ -50,8 +50,8 @@ pnpm install
 docker compose up -d postgres
 
 # Migracoes, client Prisma e seed
-pnpm --filter api prisma migrate deploy
-pnpm --filter api prisma generate
+pnpm --filter api exec npx prisma migrate deploy
+pnpm --filter api exec npx prisma generate
 pnpm --filter api seed
 
 # Inicia frontend e backend com hot reload
