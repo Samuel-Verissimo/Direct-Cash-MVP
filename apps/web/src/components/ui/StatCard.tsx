@@ -33,7 +33,7 @@ export function AppStatCard({
       <p
         className={cx(
           'mt-1.5 text-2xl font-semibold tracking-tight',
-          inv ? 'text-white' : 'text-slate-900',
+          inv ? 'text-white' : 'text-slate-900 dark:text-white',
         )}
       >
         {value}
