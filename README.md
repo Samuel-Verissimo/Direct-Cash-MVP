@@ -1,55 +1,127 @@
 # DirectCash MVP
 
-Aplicacao full-stack para gestao de campanhas e anuncios, com autenticacao JWT, CRUD completo de campanhas e geracao de campanhas com IA.
+Aplicação full-stack para gestão de campanhas publicitárias com IA — autenticação JWT, CRUD completo e geração de campanhas via linguagem natural.
 
-## Stack Obrigatoria
+## Stack
 
-- Frontend: Next.js (App Router) + TypeScript
-- Backend: NestJS + TypeScript
-- Banco: PostgreSQL
-- ORM: Prisma
+| Camada   | Tecnologia                           |
+| -------- | ------------------------------------ |
+| Frontend | Next.js 16 (App Router) + TypeScript |
+| Backend  | NestJS 11 + TypeScript               |
+| Banco    | PostgreSQL 16 + Prisma 7             |
+| IA       | OpenAI `gpt-4o-mini`                 |
+| Infra    | Docker Compose, pnpm monorepo        |
 
-## Estrutura do Projeto
+## Arquitetura
 
-```txt
-.
-├── apps/
-│   ├── api/   # NestJS API
-│   └── web/   # Next.js App Router
-├── docker-compose.yml
-├── .env.example
-└── README.md
+### Backend — Modular com Repository Pattern
+
+Cada domínio (`auth`, `campaigns`, `ads`, `ai`) é um módulo NestJS isolado com a seguinte estrutura:
+
+```
+modules/<domínio>/
+  repositories/
+    <domínio>.repository.ts           ← interface (contrato)
+    prisma-<domínio>.repository.ts    ← implementação com Prisma
+  <domínio>.service.ts                ← lógica de aplicação
+  <domínio>.controller.ts             ← HTTP, validação de entrada
+  <domínio>.module.ts                 ← DI: registra providers
+  dto/                                ← DTOs com class-validator
 ```
 
-## Decisoes Tecnicas e Arquiteturais
+**Por quê Repository Pattern?** Desacopla a lógica de negócio do Prisma. O service depende apenas da interface — trocar o ORM não afeta o domínio. Alternativa considerada: Active Record (mais simples, mas acopla service ao ORM).
 
-1. Monorepo com workspaces (`pnpm`) para manter frontend e backend versionados juntos, com scripts de qualidade padronizados.
-2. Backend modular por dominio (`auth`, `campaigns`, `ads`, `ai`) para separar responsabilidades e reduzir acoplamento.
-3. Prisma como camada de acesso a dados para tipagem de ponta a ponta e migracoes versionadas.
-4. Autenticacao com JWT de acesso + refresh token para equilibrio entre seguranca e usabilidade.
-5. DTOs com `class-validator` no backend para validar entradas na fronteira da API.
-6. Swagger para documentacao e inspecao rapida dos contratos HTTP em `/api/docs`.
-7. Frontend com fluxo simples de autenticacao e area protegida para CRUD, com validacao inline e estados de carregamento, erro, vazio e sucesso.
-8. Integracao com OpenAI (`gpt-4o-mini`) para geracao de campanhas a partir de briefs em linguagem natural.
-9. Pipeline de qualidade com ESLint + Prettier + Husky + lint-staged + commitlint para manter padrao tecnico consistente.
+**Injeção de dependência:**
+
+```ts
+{ provide: 'CAMPAIGNS_REPOSITORY', useClass: PrismaCampaignsRepository }
+
+@Inject('CAMPAIGNS_REPOSITORY') private readonly repo: ICampaignsRepository
+```
+
+**Infraestrutura global** registrada em `app.module.ts`:
+
+- `JwtAuthGuard` — guard global, bypass via `@Public()`
+- `TransformInterceptor` — envelope de resposta `{ data, timestamp, path }`
+- `PrismaExceptionFilter` — tratamento de erros do banco
+
+### Frontend — Feature-based com Hooks Layer
+
+```
+src/
+  app/           ← Next.js App Router (layout e pages apenas)
+  features/      ← lógica por domínio (hooks, helpers, constants)
+  components/    ← UI reutilizável sem lógica de domínio
+  lib/           ← API client, types e utilitários genéricos
+```
+
+**Por quê feature-based?** Agrupa por domínio em vez de tipo de arquivo — `features/campaigns/` contém hooks, helpers e constantes de campanhas juntos. Escala melhor do que separar por `hooks/`, `utils/`, `constants/` globais.
+
+**Dependência unidirecional:**
+
+```
+lib/ → sem imports de features/ ou components/
+features/ → pode importar de lib/
+components/ → pode importar de lib/ e features/
+app/ → pode importar de tudo
+```
+
+## Decisões Técnicas
+
+1. **pnpm workspaces (monorepo)** — frontend e backend versionados juntos, scripts de qualidade compartilhados na raiz. Alternativa: repositórios separados (mais overhead de CI e versioning).
+
+2. **Prisma 7 com adapter `PrismaPg`** — conexão via driver nativo do PostgreSQL, sem depender do binário query engine padrão. Exige passar o adapter explicitamente no construtor do `PrismaClient`.
+
+3. **JWT access + refresh token** — access token de vida curta (15min) em memória, refresh token (7d) em cookie `HttpOnly`. Evita exposição do refresh token via JavaScript.
+
+4. **`class-validator` nos DTOs** — validação declarativa na fronteira da API, antes de chegar ao service. Controllers nunca contêm lógica de negócio.
+
+5. **`next-intl`** — internacionalização com suporte a PT-BR, EN e ES. Locale persistido em cookie para funcionar no App Router sem depender de `searchParams`.
+
+6. **`output: 'standalone'` no Next.js** — gera um servidor Node.js autossuficiente para Docker, sem precisar da `node_modules` completa na imagem de produção.
+
+7. **ESLint isolado por app** — API e Web têm configs independentes (`eslint.config.mjs`). Evita conflito de regras entre NestJS e React. Alternativa: config flat global (mais simples, menos flexível).
+
+## Qualidade de Código
+
+### Pipeline
+
+| Ferramenta  | Função                                            |
+| ----------- | ------------------------------------------------- |
+| ESLint      | Linting por app, config isolada                   |
+| Prettier    | Formatação automática no pre-commit               |
+| Husky       | Git hooks (`pre-commit` e `commit-msg`)           |
+| lint-staged | Roda ESLint + Prettier apenas nos arquivos staged |
+| commitlint  | Valida mensagens no padrão Conventional Commits   |
+
+**Scopes permitidos:** `api`, `web`, `shared`, `docker`, `ci`, `deps`, `prisma`
+
+**Por quê lint-staged?** Roda apenas nos arquivos modificados — não bloqueia o desenvolvedor com lint do projeto inteiro a cada commit.
+
+### Comandos
+
+```bash
+pnpm lint    # ESLint em todos os apps
+pnpm build   # build de produção
+pnpm test    # testes unitários
+```
 
 ## Como Rodar
 
 ### Modo 1 — Desenvolvimento (com hot reload)
 
-Use este modo durante o desenvolvimento. Alteracoes nos arquivos refletem instantaneamente no browser.
-
-**Pre-requisitos:** Node.js 20+, pnpm 10+, Docker
+**Pré-requisitos:** Node.js 20+, pnpm 10+, Docker
 
 ```bash
 cp apps/api/.env.example apps/api/.env
+# Edite apps/api/.env e defina OPENAI_API_KEY
 
 pnpm install
 
 # Sobe apenas o banco
 docker compose up -d postgres
 
-# Migracoes, client Prisma e seed
+# Migrações, client Prisma e seed
 pnpm --filter api exec npx prisma migrate deploy
 pnpm --filter api exec npx prisma generate
 pnpm --filter api seed
@@ -64,7 +136,63 @@ Acessos:
 - Backend: `http://localhost:3101/api`
 - Swagger: `http://localhost:3101/api/docs`
 
----
+### Modo 2 — Docker Compose (build completo)
+
+**Pré-requisitos:** Docker + Docker Compose
+
+```bash
+cp apps/api/.env.example apps/api/.env
+# Edite apps/api/.env e defina OPENAI_API_KEY
+
+docker compose up -d --build
+```
+
+Para atualizar após alterações no código:
+
+```bash
+docker compose build api && docker compose up -d api
+# ou
+docker compose build web && docker compose up -d web
+```
+
+Acessos:
+
+- Frontend: `http://localhost:3100`
+- Backend: `http://localhost:3101/api`
+- Swagger: `http://localhost:3101/api/docs`
+
+## Variáveis de Ambiente
+
+Referência: [`apps/api/.env.example`](./apps/api/.env.example)
+
+| Variável                 | Descrição                              |
+| ------------------------ | -------------------------------------- |
+| `DATABASE_URL`           | Connection string do PostgreSQL        |
+| `JWT_ACCESS_SECRET`      | Secret do access token                 |
+| `JWT_REFRESH_SECRET`     | Secret do refresh token                |
+| `JWT_ACCESS_EXPIRATION`  | Expiração do access token (ex: `15m`)  |
+| `JWT_REFRESH_EXPIRATION` | Expiração do refresh token (ex: `7d`)  |
+| `OPENAI_API_KEY`         | Chave da API da OpenAI                 |
+| `FRONTEND_URL`           | URL do frontend (usada no CORS)        |
+| `NEXT_PUBLIC_API_URL`    | URL base da API consumida pelo Next.js |
+
+## Dependências Principais
+
+### Workspace (root)
+
+- `concurrently` — executa API e Web em paralelo no desenvolvimento
+- `husky` + `lint-staged` — aplica validações no pre-commit
+- `@commitlint/*` — valida o padrão de mensagens de commit
+
+### API (`apps/api`)
+
+- Runtime: `@nestjs/*`, `@prisma/client`, `@prisma/adapter-pg`, `openai`, `passport-jwt`, `bcrypt`
+- Qualidade e build: `typescript`, `eslint`, `jest`, `prettier`, `prisma`
+
+### Web (`apps/web`)
+
+- Runtime: `next`, `react`, `next-intl`, `next-themes`
+- Qualidade e build: `typescript`, `eslint`, `tailwindcss`
 
 ## Preview da Tela de Login
 
@@ -75,107 +203,6 @@ Acessos:
   <em>Fluxo de autenticação inicial da aplicação.</em>
 </p>
 
-### Modo 2 — Docker Compose (build completo)
+## Licença
 
-Use este modo para validar o build final ou testar em ambiente proximo ao de producao. **Nao ha hot reload** — alteracoes exigem rebuild da imagem.
-
-**Pre-requisitos:** Docker + Docker Compose
-
-```bash
-cp apps/api/.env.example apps/api/.env
-# Edite apps/api/.env e defina OPENAI_API_KEY
-
-# Sobe tudo (postgres + api + web)
-docker compose up -d --build
-```
-
-Para atualizar apos alteracoes no codigo:
-
-```bash
-# Rebuilda e reinicia apenas o servico alterado
-docker compose build web && docker compose up -d web
-# ou
-docker compose build api && docker compose up -d api
-```
-
-Acessos:
-
-- Frontend: `http://localhost:3100`
-- Backend: `http://localhost:3101/api`
-- Swagger: `http://localhost:3101/api/docs`
-
-## Qualidade de Codigo
-
-### Lint
-
-```bash
-pnpm lint
-```
-
-### Build
-
-```bash
-pnpm build
-```
-
-### Testes
-
-```bash
-pnpm test
-```
-
-## Deploy
-
-### Railway (sugerido pelo desafio)
-
-- Criar servicos para `api`, `web` e `postgres`
-- Configurar variaveis de ambiente conforme `.env.example`
-- Garantir que backend exponha `/api/docs`
-
-## Variaveis de Ambiente
-
-Use o arquivo [`.env.example`](./.env.example) como referencia.
-
-## Dependencias Principais
-
-As dependencias detalhadas ficam nos `package.json` de cada app. Abaixo estao apenas os blocos principais da stack:
-
-### Workspace (root)
-
-- `concurrently`: executa API e Web em paralelo no desenvolvimento.
-- `husky` + `lint-staged`: aplica validacoes em pre-commit.
-- `@commitlint/*`: valida o padrao de mensagens de commit.
-
-### API (`apps/api`)
-
-- Runtime: `@nestjs/*`, `@prisma/client`, `openai`, `passport-jwt`, `bcrypt`.
-- Qualidade e build: `typescript`, `eslint`, `jest`, `prettier`, `prisma`.
-
-### Web (`apps/web`)
-
-- Runtime: `next`, `react`, `next-intl`, `next-themes`.
-- Qualidade e build: `typescript`, `eslint`, `tailwindcss`.
-
-## Workflow de Commits
-
-- Hook `pre-commit`: executa `lint-staged`.
-- Hook `commit-msg`: executa `commitlint`.
-- Convencao: `type(scope): subject`
-  - Exemplo: `feat(api): add campaigns pagination`
-
-## Checklist de Entrega do Desafio
-
-- [x] Stack obrigatoria em monorepo
-- [x] Auth JWT (registro/login/refresh/logout/me)
-- [x] CRUD completo de entidade principal
-- [x] Swagger em `/api/docs`
-- [x] Lint/format/hooks configurados
-- [x] README com setup, arquitetura e dependencias justificadas
-- [x] Seed de dados (`pnpm --filter api seed`)
-- [x] Integracao com IA (OpenAI — gerar campanha e anuncios)
-- [x] Validacao inline no frontend (formulario de campanha e autenticacao)
-- [ ] Deploy publico (preencher apos publicacao)
-
-## Licenca
-
-Uso apenas para avaliacao tecnica.
+Uso apenas para avaliação técnica.
